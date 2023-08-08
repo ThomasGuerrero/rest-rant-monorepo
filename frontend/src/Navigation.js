@@ -6,9 +6,10 @@ function Navigation() {
 
     const history = useHistory()
 
-    const { currentUser } = useContext(CurrentUser)
+    const { currentUser, setCurrentUser } = useContext(CurrentUser);
 
-    let loginActions = (
+
+        let loginActions = (
         <>
             <li style={{ float: 'right' }}>
                 <a href="#" onClick={() => history.push("/sign-up")}>
@@ -25,9 +26,20 @@ function Navigation() {
 
     if (currentUser) {
         loginActions = (
-            <li style={{ float: 'right' }}>
-                Logged in as {currentUser.firstName} {currentUser.lastName}
-            </li>
+            <>
+                <li style={{ float: 'right' }}>
+                    {currentUser.firstName} {currentUser.lastName}
+                </li>
+                <li style={{ float: 'right' }}>
+                    <a href="#" onClick={() => {
+                        localStorage.removeItem('token')
+                        setCurrentUser(null)
+                        history.push("/")
+                    }}>
+                        Logout
+                    </a>
+                </li>            
+            </>
         )
     }
 
